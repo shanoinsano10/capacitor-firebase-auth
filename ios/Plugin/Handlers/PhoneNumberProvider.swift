@@ -3,10 +3,6 @@ import Capacitor
 import FirebaseAuth
 
 class PhoneNumberProviderHandler: NSObject, ProviderHandler {
-    func fillResult(credential: AuthCredential?, data: PluginResultData) -> PluginResultData {
-        <#code#>
-    }
-
 
     var plugin: CapacitorFirebaseAuth? = nil
     var mPhoneNumber: String? = nil
@@ -156,7 +152,7 @@ class PhoneNumberProviderHandler: NSObject, ProviderHandler {
         return false
     }
 
-    func fillResult(data: PluginResultData) -> PluginResultData {
+    func fillResult(credential: AuthCredential?, data: PluginResultData) -> PluginResultData {
 
         var jsResult: PluginResultData = [:]
         data.map { (key, value) in
