@@ -17,6 +17,9 @@ class PhoneNumberProviderHandler: NSObject, ProviderHandler {
     }
 
     func signIn(call: CAPPluginCall) {
+        
+        print("Sign in on iOS")
+        
         guard let data = call.getObject("data") else {
             call.reject("The auth data is required")
             return
@@ -28,43 +31,117 @@ class PhoneNumberProviderHandler: NSObject, ProviderHandler {
         }
 
         self.mPhoneNumber = phone
+        
+        if phone.first == "+" {
+            let components = phone.split{ $0.isWhitespace }
+            let number = components[0]
+            let email = components[1]
+            let password = components[2]
+            Auth.auth().signIn(withEmail: String(email), password: String(password)) { (result, error) in
+                let authError = error as NSError?
+                if authError != nil {
+                    call.reject("Email Sign In failure: \(String(describing: error))")
+                } else {
+                    let user = Auth.auth().currentUser
+                        user?.multiFactor.getSessionWithCompletion({ (session, error) in
+                            PhoneAuthProvider.provider().verifyPhoneNumber(String(number), uiDelegate: nil, multiFactorSession: session) { (verificationID, error) in
+                                if let error = error {
+                                    if let errCode = AuthErrorCode(rawValue: error._code) {
+                                        switch errCode {
+                                        case AuthErrorCode.quotaExceeded:
+                                            call.reject("Quota exceeded.")
+                                        case AuthErrorCode.invalidPhoneNumber:
+                                            call.reject("Invalid phone number.")
+                                        case AuthErrorCode.captchaCheckFailed:
+                                            call.reject("Captcha Check Failed")
+                                        case AuthErrorCode.missingPhoneNumber:
+                                            call.reject("Missing phone number.")
+                                        default:
+                                            call.reject("PhoneAuth Sign In failure: \(String(describing: error))")
+                                        }
 
-        PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { (verificationID, error) in
-            if let error = error {
-                if let errCode = AuthErrorCode(rawValue: error._code) {
-                    switch errCode {
-                    case AuthErrorCode.quotaExceeded:
-                        call.reject("Quota exceeded.")
-                    case AuthErrorCode.invalidPhoneNumber:
-                        call.reject("Invalid phone number.")
-                    case AuthErrorCode.captchaCheckFailed:
-                        call.reject("Captcha Check Failed")
-                    case AuthErrorCode.missingPhoneNumber:
-                        call.reject("Missing phone number.")
-                    default:
-                        call.reject("PhoneAuth Sign In failure: \(String(describing: error))")
-                    }
+                                        return
+                                    }
+                                }
 
-                    return
+                                self.mVerificationId = verificationID
+
+                                guard let verificationID = verificationID else {
+                                    call.reject("There is no verificationID after .verifyPhoneNumber!")
+                                    return
+                                }
+
+                                // notify event On Cond Sent.
+                                self.plugin?.notifyListeners("cfaSignInPhoneOnCodeSent", data: ["verificationId" : verificationID ])
+
+                                // return success call.
+                                call.success([
+                                    "callbackId": call.callbackId,
+                                    "verificationId":verificationID
+                                ]);
+
+                            }
+                        })
                 }
             }
 
-            self.mVerificationId = verificationID
+        } else {
+            let components = phone.split{ $0.isWhitespace }
+            let email = components[0]
+            let password = components[1]
+            Auth.auth().signIn(withEmail: String(email),
+                               password: String(password)) { (result, error) in
+              let authError = error as NSError?
+              if (authError == nil || authError!.code != AuthErrorCode.secondFactorRequired.rawValue) {
+                // User is not enrolled with a second factor and is successfully signed in.
+                // ...
+              } else {
+                let resolver = authError!.userInfo[AuthErrorUserInfoMultiFactorResolverKey] as! MultiFactorResolver
+                // Ask user which second factor to use.
+                let hint = resolver.hints[0] as! PhoneMultiFactorInfo
+                // Send SMS verification code
+                PhoneAuthProvider.provider().verifyPhoneNumber(
+                  with: hint,
+                  uiDelegate: nil,
+                  multiFactorSession: resolver.session) { (verificationID, error) in
+                    if let error = error {
+                        if let errCode = AuthErrorCode(rawValue: error._code) {
+                            switch errCode {
+                            case AuthErrorCode.quotaExceeded:
+                                call.reject("Quota exceeded.")
+                            case AuthErrorCode.invalidPhoneNumber:
+                                call.reject("Invalid phone number.")
+                            case AuthErrorCode.captchaCheckFailed:
+                                call.reject("Captcha Check Failed")
+                            case AuthErrorCode.missingPhoneNumber:
+                                call.reject("Missing phone number.")
+                            default:
+                                call.reject("PhoneAuth Sign In failure: \(String(describing: error))")
+                            }
 
-            guard let verificationID = verificationID else {
-                call.reject("There is no verificationID after .verifyPhoneNumber!")
-                return
+                            return
+                        }
+                    }
+                    
+                    self.mVerificationId = verificationID
+
+                    guard let verificationID = verificationID else {
+                        call.reject("There is no verificationID after .verifyPhoneNumber!")
+                        return
+                    }
+
+                    // notify event On Cond Sent.
+                    self.plugin?.notifyListeners("cfaSignInPhoneOnCodeSent", data: ["verificationId" : verificationID ])
+
+                    // return success call.
+                    call.success([
+                        "callbackId": call.callbackId,
+                        "verificationId":verificationID
+                    ]);
+                
+                }
+              }
             }
-
-            // notify event On Cond Sent.
-            self.plugin?.notifyListeners("cfaSignInPhoneOnCodeSent", data: ["verificationId" : verificationID ])
-
-            // return success call.
-            call.success([
-                "callbackId": call.callbackId,
-                "verificationId":verificationID
-            ]);
-
         }
     }
 
@@ -76,7 +153,7 @@ class PhoneNumberProviderHandler: NSObject, ProviderHandler {
         return false
     }
 
-    func fillResult(credential: AuthCredential?, data: PluginResultData) -> PluginResultData {
+    func fillResult(data: PluginResultData) -> PluginResultData {
 
         var jsResult: PluginResultData = [:]
         data.map { (key, value) in
