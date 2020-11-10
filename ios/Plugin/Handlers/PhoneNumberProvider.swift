@@ -3,6 +3,9 @@ import Capacitor
 import FirebaseAuth
 
 class PhoneNumberProviderHandler: NSObject, ProviderHandler {
+    func fillResult(credential: AuthCredential?, data: PluginResultData) -> PluginResultData {
+        <#code#>
+    }
 
 
     var plugin: CapacitorFirebaseAuth? = nil
