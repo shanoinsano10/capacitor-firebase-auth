@@ -3,19 +3,19 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { Observable, throwError } from 'rxjs';
 import {
-	CapacitorFirebaseAuthPlugin,
+	Shanoinsano10CapacitorFirebaseAuthPlugin,
 	FacebookSignInResult,
 	GoogleSignInResult,
 	PhoneSignInResult,
 	SignInOptions,
 	TwitterSignInResult
 } from './definitions';
-import {CapacitorFirebaseAuth} from './web';
+import {Shanoinsano10CapacitorFirebaseAuth} from './web';
 
-const plugin: CapacitorFirebaseAuthPlugin = Plugins.CapacitorFirebaseAuth;
+const plugin: Shanoinsano10CapacitorFirebaseAuthPlugin = Plugins.Shanoinsano10CapacitorFirebaseAuth;
 
 if (Capacitor.platform === 'web') {
-    registerWebPlugin(CapacitorFirebaseAuth)
+    registerWebPlugin(Shanoinsano10CapacitorFirebaseAuth)
 }
 
 /**

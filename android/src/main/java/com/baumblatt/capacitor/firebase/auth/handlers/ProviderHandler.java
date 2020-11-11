@@ -2,14 +2,14 @@ package com.baumblatt.capacitor.firebase.auth.handlers;
 
 import android.content.Intent;
 
-import com.baumblatt.capacitor.firebase.auth.CapacitorFirebaseAuth;
+import com.baumblatt.capacitor.firebase.auth.Shanoinsano10CapacitorFirebaseAuth;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PluginCall;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 
 public interface ProviderHandler {
-    void init(CapacitorFirebaseAuth plugin);
+    void init(Shanoinsano10CapacitorFirebaseAuth plugin);
 
     void signIn(PluginCall call);
 

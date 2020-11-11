@@ -1,16 +1,16 @@
 import {registerWebPlugin, WebPlugin} from '@capacitor/core';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import {CapacitorFirebaseAuthPlugin, SignInResult} from './definitions';
+import {Shanoinsano10CapacitorFirebaseAuthPlugin, SignInResult} from './definitions';
 import {facebookSignInWeb} from './providers/facebook.provider';
 import {googleSignInWeb} from './providers/google.provider';
 import {phoneSignInWeb} from './providers/phone.provider';
 import {twitterSignInWeb} from './providers/twitter.provider';
 
-export class CapacitorFirebaseAuthWeb extends WebPlugin implements CapacitorFirebaseAuthPlugin {
+export class Shanoinsano10CapacitorFirebaseAuthWeb extends WebPlugin implements Shanoinsano10CapacitorFirebaseAuthPlugin {
   constructor() {
     super({
-      name: 'CapacitorFirebaseAuth',
+      name: 'Shanoinsano10CapacitorFirebaseAuth',
       platforms: ['web']
     });
   }
@@ -40,8 +40,8 @@ export class CapacitorFirebaseAuthWeb extends WebPlugin implements CapacitorFire
   }
 }
 
-const CapacitorFirebaseAuth = new CapacitorFirebaseAuthWeb();
-export { CapacitorFirebaseAuth };
+const Shanoinsano10CapacitorFirebaseAuth = new Shanoinsano10CapacitorFirebaseAuthWeb();
+export { Shanoinsano10CapacitorFirebaseAuth };
 
 // Register as a web plugin
-registerWebPlugin(CapacitorFirebaseAuth);
+registerWebPlugin(Shanoinsano10CapacitorFirebaseAuth);

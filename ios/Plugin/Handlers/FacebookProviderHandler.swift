@@ -5,10 +5,10 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 
 class FacebookProviderHandler: NSObject, ProviderHandler {
-    var plugin: CapacitorFirebaseAuth? = nil
+    var plugin: Shanoinsano10CapacitorFirebaseAuth? = nil
     var loginManager: LoginManager? = nil
     
-    func initialize(plugin: CapacitorFirebaseAuth) {
+    func initialize(plugin: Shanoinsano10CapacitorFirebaseAuth) {
         print("Initializing Facebook Provider Handler")
         self.plugin = plugin
         

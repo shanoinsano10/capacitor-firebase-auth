@@ -7,9 +7,9 @@ import GoogleSignIn
 
 class GoogleProviderHandler: NSObject, ProviderHandler, GIDSignInDelegate {
 
-    var plugin: CapacitorFirebaseAuth? = nil
+    var plugin: Shanoinsano10CapacitorFirebaseAuth? = nil
 
-    func initialize(plugin: CapacitorFirebaseAuth) {
+    func initialize(plugin: Shanoinsano10CapacitorFirebaseAuth) {
         print("Initializing Google Provider Handler")
 
         self.plugin = plugin

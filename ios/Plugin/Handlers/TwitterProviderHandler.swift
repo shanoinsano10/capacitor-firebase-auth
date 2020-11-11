@@ -4,9 +4,9 @@ import FirebaseAuth
 
 class TwitterProviderHandler: NSObject, ProviderHandler {
     var provider: OAuthProvider? = nil
-    var plugin: CapacitorFirebaseAuth? = nil
+    var plugin: Shanoinsano10CapacitorFirebaseAuth? = nil
     
-    func initialize(plugin: CapacitorFirebaseAuth) {
+    func initialize(plugin: Shanoinsano10CapacitorFirebaseAuth) {
         print("Initializing Twitter Provider Handler")
         self.plugin = plugin
         

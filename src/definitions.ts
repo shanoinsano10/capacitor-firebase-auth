@@ -3,11 +3,11 @@ import 'firebase/auth';
 
 declare module "@capacitor/core" {
   interface PluginRegistry {
-    CapacitorFirebaseAuth?: CapacitorFirebaseAuthPlugin;
+    Shanoinsano10CapacitorFirebaseAuth?: Shanoinsano10CapacitorFirebaseAuthPlugin;
   }
 }
 
-export interface CapacitorFirebaseAuthPlugin {
+export interface Shanoinsano10CapacitorFirebaseAuthPlugin {
   signIn(options: {providerId: string, data?: SignInOptions}): Promise<SignInResult>;
   signOut(options: {}): Promise<void>;
 }

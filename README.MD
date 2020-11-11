@@ -85,7 +85,7 @@ npm install --save capacitor-firebase-auth
     ```
     [...]
       "plugins": {
-        "CapacitorFirebaseAuth": {
+        "Shanoinsano10CapacitorFirebaseAuth": {
           "providers": ["google.com", "twitter.com", "facebook.com", "phone"],
           "languageCode": "en",
           "nativeAuth": false,
@@ -102,12 +102,12 @@ npm install --save capacitor-firebase-auth
 2. In file `android/app/src/main/java/.../MainActivity.java` add the reference to the Capacitor Firebase Auth plugin inside the Bridge initialization.
     ```
     [...]
-    import com.baumblatt.capacitor.firebase.auth.CapacitorFirebaseAuth;
+    import com.baumblatt.capacitor.firebase.auth.Shanoinsano10CapacitorFirebaseAuth;
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
-      add(CapacitorFirebaseAuth.class);
+      add(Shanoinsano10CapacitorFirebaseAuth.class);
     }});
     [...]
     ```

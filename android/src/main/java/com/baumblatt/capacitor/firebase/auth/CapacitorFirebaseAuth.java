@@ -34,9 +34,9 @@ import java.util.Map;
         GoogleProviderHandler.RC_GOOGLE_SIGN_IN,
         FacebookProviderHandler.RC_FACEBOOK_LOGIN
 })
-public class CapacitorFirebaseAuth extends Plugin {
-    public static final String CONFIG_KEY_PREFIX = "plugins.CapacitorFirebaseAuth.";
-    private static final String PLUGIN_TAG = "CapacitorFirebaseAuth";
+public class Shanoinsano10CapacitorFirebaseAuth extends Plugin {
+    public static final String CONFIG_KEY_PREFIX = "plugins.Shanoinsano10CapacitorFirebaseAuth.";
+    private static final String PLUGIN_TAG = "Shanoinsano10CapacitorFirebaseAuth";
 
     private FirebaseAuth firebaseAuth;
     private Map<String, ProviderHandler> providerHandlers = new HashMap<>();
