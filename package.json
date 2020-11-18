@@ -22,7 +22,7 @@
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
-    "firebase": "^7.24.0",
+    "firebase": "^8.0.2",
     "rxjs": "~6.6.3"
   },
   "files": [
